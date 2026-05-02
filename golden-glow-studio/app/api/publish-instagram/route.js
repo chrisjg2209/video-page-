@@ -17,12 +17,22 @@
 // at the scheduled time via a Vercel Cron job. For v1 we just publish now
 // or return the container ID for later manual publish.
 
+import { DEMO_MODE } from "@/lib/demo";
+
 export async function POST(request) {
   try {
     const { videoUrl, caption, hashtags = [], publishNow = true } = await request.json();
 
     if (!videoUrl) {
       return Response.json({ error: "videoUrl is required." }, { status: 400 });
+    }
+
+    if (DEMO_MODE) {
+      return Response.json({
+        success: true,
+        mediaId: `demo-media-${Date.now()}`,
+        message: "Demo publish — no real Instagram post was created.",
+      });
     }
 
     const accessToken = process.env.META_ACCESS_TOKEN;

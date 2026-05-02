@@ -1,6 +1,7 @@
 // app/api/generate-script/route.js
 import Anthropic from "@anthropic-ai/sdk";
 import { SCRIPT_PROMPT } from "@/lib/prompts";
+import { DEMO_MODE, demoScript } from "@/lib/demo";
 
 const TONES = {
   warm: { label: "Warm & inviting", desc: "Friendly neighborhood feel" },
@@ -18,6 +19,10 @@ export async function POST(request) {
         { error: "Description must be at least 10 characters." },
         { status: 400 }
       );
+    }
+
+    if (DEMO_MODE) {
+      return Response.json({ success: true, data: demoScript({ description, tone, duration }) });
     }
 
     const toneConfig = TONES[tone] || TONES.warm;
