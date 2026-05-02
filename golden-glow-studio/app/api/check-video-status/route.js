@@ -2,6 +2,8 @@
 // Polls Runway for the status of a generation task.
 // The UI calls this every few seconds until status is "SUCCEEDED" or "FAILED".
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
