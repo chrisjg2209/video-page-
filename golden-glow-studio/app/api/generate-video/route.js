@@ -46,7 +46,7 @@ export async function POST(request) {
         "X-Runway-Version": "2024-11-06",
       },
       body: JSON.stringify({
-        model: "gen4_turbo",
+        model: "gen4.5",
         promptText: videoPrompt,
         duration: duration === 5 ? 5 : 10,
         ratio: "720:1280",
