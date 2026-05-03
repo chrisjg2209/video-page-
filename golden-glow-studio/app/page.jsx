@@ -147,6 +147,24 @@ export default function GoldenGlowVideoStudio() {
     }
   };
 
+  const compositeAndShow = async (rawVideoUrl) => {
+    setProgressMsg("Adding voiceover...");
+    try {
+      const resp = await fetch("/api/composite-video", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ videoUrl: rawVideoUrl, script: editedScript || result.script }),
+      });
+      if (!resp.ok) throw new Error(await resp.text());
+      const blob = await resp.blob();
+      setVideoUrl(URL.createObjectURL(blob));
+    } catch (e) {
+      console.warn("Compositing failed, falling back to silent video:", e);
+      setVideoUrl(rawVideoUrl);
+    }
+    setStep("preview-video");
+  };
+
   const pollVideoStatus = async (taskId) => {
     const interval = setInterval(async () => {
       try {
@@ -159,8 +177,7 @@ export default function GoldenGlowVideoStudio() {
 
         if (data.status === "SUCCEEDED") {
           clearInterval(interval);
-          setVideoUrl(data.videoUrl);
-          setStep("preview-video");
+          await compositeAndShow(data.videoUrl);
         } else if (data.status === "FAILED" || data.status === "CANCELLED") {
           clearInterval(interval);
           setError(`Video generation ${data.status.toLowerCase()}: ${data.failure || "unknown error"}`);
