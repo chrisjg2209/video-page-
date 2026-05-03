@@ -9,10 +9,9 @@ export const DEMO_MODE = process.env.DEMO_MODE === "true";
 export const DEMO_AUDIO_URL =
   "data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQwAADB8AhBNAAACzfgaC3PgAAQAAAAAA0AAAACABnZW5yZQAAAAAAAA==";
 
-// Public sample MP4 (Big Buck Bunny clip) hosted by Google — used as the
-// "generated" video in demo mode.
+// Public sample MP4 — used as the "generated" video in demo mode.
 export const DEMO_VIDEO_URL =
-  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4";
+  "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4";
 
 export function demoScript({ description, tone, duration }) {
   const desc = description.trim();
