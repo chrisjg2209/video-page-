@@ -2,6 +2,10 @@
 // Polls Runway for the status of a generation task.
 // The UI calls this every few seconds until status is "SUCCEEDED" or "FAILED".
 
+import { DEMO_MODE, DEMO_VIDEO_URL, demoTaskProgress } from "@/lib/demo";
+
+export const dynamic = "force-dynamic";
+
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -9,6 +13,17 @@ export async function GET(request) {
 
     if (!taskId) {
       return Response.json({ error: "taskId is required." }, { status: 400 });
+    }
+
+    if (DEMO_MODE) {
+      const { status, progress } = demoTaskProgress(taskId);
+      return Response.json({
+        success: true,
+        status,
+        progress,
+        videoUrl: status === "SUCCEEDED" ? DEMO_VIDEO_URL : null,
+        failure: null,
+      });
     }
 
     const apiKey = process.env.RUNWAY_API_KEY;

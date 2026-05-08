@@ -2,12 +2,18 @@
 // Calls ElevenLabs to generate a real broadcast-quality voiceover.
 // Returns the audio as base64 so the browser can play it directly.
 
+import { DEMO_MODE, DEMO_AUDIO_URL } from "@/lib/demo";
+
 export async function POST(request) {
   try {
     const { script } = await request.json();
 
     if (!script || script.trim().length < 5) {
       return Response.json({ error: "Script is required." }, { status: 400 });
+    }
+
+    if (DEMO_MODE) {
+      return Response.json({ success: true, audioUrl: DEMO_AUDIO_URL, sizeBytes: 0 });
     }
 
     const voiceId = process.env.ELEVENLABS_VOICE_ID || "21m00Tcm4TlvDq8ikWAM";

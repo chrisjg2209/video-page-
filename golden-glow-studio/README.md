@@ -59,7 +59,17 @@ npm run dev
 
 Open http://localhost:3000
 
-### 4. Test the pipeline
+### 4. (Optional) Try demo mode first
+
+You can run the entire pipeline end-to-end with **zero API keys** to confirm the UI works. In `.env.local`:
+
+```
+DEMO_MODE=true
+```
+
+Restart `npm run dev`. Every external call (Claude, ElevenLabs, Runway, Meta) is stubbed with sample data. No spend, no setup. Set back to `false` once you have your real keys.
+
+### 5. Test the pipeline
 
 1. Enter a description: *"30-second ad for our move-out cleaning service"*
 2. Click Generate
@@ -68,7 +78,7 @@ Open http://localhost:3000
 5. Generate the video (Runway, takes ~2 min)
 6. Schedule the Instagram post
 
-### 5. Deploy to Vercel
+### 6. Deploy to Vercel
 
 ```bash
 npm install -g vercel
